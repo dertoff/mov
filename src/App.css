@@ -18,6 +18,15 @@
   --text-muted: #8c8c8c;
   --text-accent: #ffd700;
   
+  /* Accessibility Colors - WCAG AA Compliant */
+  --text-high-contrast: #ffffff;
+  --text-medium-contrast: #e5e5e5;
+  --text-low-contrast: #cccccc;
+  --focus-color: #4a9eff;
+  --error-color: #ff6b6b;
+  --success-color: #51cf66;
+  --warning-color: #ffd43b;
+  
   /* UI Elements */
   --border-color: rgba(255, 255, 255, 0.1);
   --border-hover: rgba(255, 255, 255, 0.2);
@@ -33,6 +42,23 @@
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
+  
+  /* Typography Scale - Accessible sizing */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  
+  /* Line Heights - Improved readability */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
   
   /* Border Radius */
   --radius-sm: 4px;
@@ -61,18 +87,19 @@
 
 html {
   font-size: 16px;
-  line-height: 1.6;
+  line-height: var(--line-height-relaxed);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
   background: var(--background-black);
   color: var(--text-primary);
   overflow-x: hidden;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
+  letter-spacing: 0.01em;
 }
 
 /* Custom Scrollbar */
@@ -94,23 +121,131 @@ body {
   background: var(--primary-red-hover);
 }
 
-/* Typography */
+/* Typography - Improved Accessibility */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
-  line-height: 1.2;
-  margin-bottom: var(--spacing-sm);
-  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--spacing-md);
+  color: var(--text-high-contrast);
+  letter-spacing: -0.025em;
+  font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
-h1 { font-size: clamp(1.75rem, 4vw, 3rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
-h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
-h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+/* Proper heading hierarchy with accessible sizing */
+h1 { 
+  font-size: clamp(var(--font-size-3xl), 4vw, var(--font-size-5xl));
+  margin-bottom: var(--spacing-lg);
+}
+h2 { 
+  font-size: clamp(var(--font-size-2xl), 3vw, var(--font-size-4xl));
+  margin-bottom: var(--spacing-lg);
+}
+h3 { 
+  font-size: clamp(var(--font-size-xl), 2.5vw, var(--font-size-3xl));
+  margin-bottom: var(--spacing-md);
+}
+h4 { 
+  font-size: clamp(var(--font-size-lg), 2vw, var(--font-size-2xl));
+  margin-bottom: var(--spacing-md);
+}
+h5 { 
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+}
+h6 { 
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 
 p {
-  line-height: 1.6;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
   margin-bottom: var(--spacing-md);
-  color: var(--text-secondary);
+  color: var(--text-medium-contrast);
+  max-width: 65ch; /* Optimal reading width */
+  letter-spacing: 0.01em;
+}
+
+/* Improved text readability for dyslexia */
+.dyslexia-friendly {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', 'Arial', sans-serif;
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+  line-height: var(--line-height-loose);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --text-muted: #e5e5e5;
+    --background-card: #000000;
+    --border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus management for keyboard navigation */
+*:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--primary-red);
+  color: var(--text-high-contrast);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  z-index: 9999;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Visually hidden but available to screen readers */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 /* App Container */
@@ -181,20 +316,21 @@ p {
 }
 
 .netflix-hero-title {
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #ffffff;
+  color: var(--text-high-contrast);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  line-height: 1.1;
+  line-height: var(--line-height-tight);
 }
 
 .netflix-hero-overview {
-  font-size: clamp(1rem, 1.5vw, 1.4rem);
-  line-height: 1.4;
-  color: #ffffff;
+  font-size: clamp(var(--font-size-base), 1.5vw, var(--font-size-xl));
+  line-height: var(--line-height-relaxed);
+  color: var(--text-medium-contrast);
   margin-bottom: 2rem;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  max-width: 50ch;
 }
 
 .netflix-hero-buttons {
