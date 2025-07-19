@@ -100,32 +100,6 @@
   
   /* Z-index layers */
   --z-header: 1000;
-            <NetflixRow
-              id="popular-section"
-              titleId="popular-title"
-              title={`Popular ${activeMode === 'movies' ? 'Movies' : 'TV Shows'}`}
-              content={popularContent}
-              onPlayClick={handlePlayClick}
-              isTV={activeMode === 'tv'}
-            />
-          </section>
-          
-          <section aria-labelledby="upcoming-title">
-            <NetflixRow
-              id="upcoming-section"
-              titleId="upcoming-title"
-              title={activeMode === 'movies' ? 'Upcoming Movies' : 'Popular TV Shows'}
-              content={upcomingContent}
-              onPlayClick={handlePlayClick}
-              isTV={activeMode === 'tv'}
-            />
-          </section>
-        </section>
-      </div>
-    </div>
-  );
-};
-
   --z-modal: 2000;
   --z-overlay: 3000;
 }
@@ -180,7 +154,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-md);
   color: var(--text-high-contrast);
   letter-spacing: -0.025em;
-  font-feature-settings: 'kern' 1, 'liga' 1;
+  font-feature-settings: 'kern\' 1, 'liga\' 1;
 }
 
 /* Proper heading hierarchy with accessible sizing */
@@ -895,6 +869,7 @@ p {
   border-radius: 42px;
   box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
 }
+
 .netflix-no-results {
   display: flex;
   align-items: center;
@@ -1104,6 +1079,7 @@ p {
   background: #141414;
   padding: 2rem 0;
 }
+
 /* Header Styles */
 .header {
   position: fixed;
@@ -2437,3 +2413,44 @@ input:focus-visible {
     break-inside: avoid;
   }
 }
+
+const NetflixHomePage = () => {
+  const [activeMode, setActiveMode] = useState('movies');
+  const [popularContent, setPopularContent] = useState([]);
+  const [upcomingContent, setUpcomingContent] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const handlePlayClick = (content) => {
+    console.log('Playing:', content);
+  };
+
+  return (
+    <div className="netflix-home">
+      <div className="content-container">
+        <section className="trending-section">
+          <section aria-labelledby="popular-title">
+            <NetflixRow
+              id="popular-section"
+              titleId="popular-title"
+              title={`Popular ${activeMode === 'movies' ? 'Movies' : 'TV Shows'}`}
+              content={popularContent}
+              onPlayClick={handlePlayClick}
+              isTV={activeMode === 'tv'}
+            />
+          </section>
+          
+          <section aria-labelledby="upcoming-title">
+            <NetflixRow
+              id="upcoming-section"
+              titleId="upcoming-title"
+              title={activeMode === 'movies' ? 'Upcoming Movies' : 'Popular TV Shows'}
+              content={upcomingContent}
+              onPlayClick={handlePlayClick}
+              isTV={activeMode === 'tv'}
+            />
+          </section>
+        </section>
+      </div>
+    </div>
+  );
+};
