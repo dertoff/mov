@@ -36,14 +36,21 @@ const MovieCard = ({ movie, index = 0, onPlayClick }) => {
   };
 
   return (
-    <motion.div
+    <motion.article
       className="movie-card"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       whileHover={{ y: -8, scale: 1.02 }}
+      role="article"
+      aria-labelledby={`movie-title-${movie.id}`}
+      aria-describedby={`movie-meta-${movie.id}`}
     >
-      <Link to={`/${isTV ? 'tv' : 'movie'}/${movie.id}`} className="movie-card-link">
+      <Link 
+        to={`/${isTV ? 'tv' : 'movie'}/${movie.id}`} 
+        className="movie-card-link"
+        aria-label={`View details for ${title}`}
+      >
         <div className="movie-poster-container">
           <OptimizedImage
             src={posterUrl}
@@ -56,22 +63,26 @@ const MovieCard = ({ movie, index = 0, onPlayClick }) => {
             placeholder="blur"
           />
           
-          <div className="movie-overlay">
+          <div className="movie-overlay" role="group" aria-label="Movie actions">
             <div className="overlay-content">
               <button 
                 className="play-btn"
                 onClick={handlePlayClick}
                 aria-label={`Play ${title}`}
+                type="button"
               >
                 <Play size={24} fill="currentColor" />
+                <span className="sr-only">Play movie</span>
               </button>
               
-              <div className="overlay-actions">
+              <div className="overlay-actions" role="group" aria-label="Additional actions">
                 <button 
                   className="action-btn"
                   aria-label={`Add ${title} to watchlist`}
+                  type="button"
                 >
                   <Plus size={16} />
+                  <span className="sr-only">Add to watchlist</span>
                 </button>
                 
                 <Link 
@@ -81,25 +92,36 @@ const MovieCard = ({ movie, index = 0, onPlayClick }) => {
                   aria-label={`More info about ${title}`}
                 >
                   <Info size={16} />
+                  <span className="sr-only">More information</span>
                 </Link>
               </div>
             </div>
           </div>
           
-          <div className="movie-badges">
-            <div className="rating-badge">
+          <div className="movie-badges" role="group" aria-label="Movie ratings and quality">
+            <div className="rating-badge" role="img" aria-label={`Rating: ${rating} out of 10`}>
               <Star size={12} fill="currentColor" />
               <span>{rating}</span>
             </div>
-            <div className="quality-badge">HD</div>
+            <div className="quality-badge" role="img" aria-label="HD Quality available">
+              HD
+            </div>
           </div>
         </div>
         
         <div className="movie-info">
-          <h3 className="movie-title">{title}</h3>
-          <div className="movie-meta">
-            <span className="movie-year">{releaseYear}</span>
-            <span className="movie-type">{isTV ? 'TV Show' : 'Movie'}</span>
+          <h4 id={`movie-title-${movie.id}`} className="movie-title">
+            {title}
+          </h4>
+          <div id={`movie-meta-${movie.id}`} className="movie-meta">
+            <span className="movie-year" aria-label={`Released in ${releaseYear}`}>
+              <Calendar size={12} aria-hidden="true" />
+              {releaseYear}
+            </span>
+            <span className="movie-type" aria-label={`Content type: ${isTV ? 'TV Show' : 'Movie'}`}>
+              {isTV ? <Tv size={12} aria-hidden="true" /> : <Film size={12} aria-hidden="true" />}
+              {isTV ? 'TV Show' : 'Movie'}
+            </span>
           </div>
         </div>
       </Link>
@@ -122,7 +144,7 @@ const MovieCard = ({ movie, index = 0, onPlayClick }) => {
           })
         }}
       />
-    </motion.div>
+    </motion.article>
   );
 };
 

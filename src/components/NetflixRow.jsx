@@ -128,7 +128,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-md);
   color: var(--text-high-contrast);
   letter-spacing: -0.025em;
-  font-feature-settings: 'kern\' 1, 'liga\' 1;
+  font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
 /* Proper heading hierarchy with accessible sizing */
