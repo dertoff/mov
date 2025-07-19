@@ -128,7 +128,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-md);
   color: var(--text-high-contrast);
   letter-spacing: -0.025em;
-  font-feature-settings: 'kern' 1, 'liga' 1;
+  font-feature-settings: 'kern\' 1, 'liga\' 1;
 }
 
 /* Proper heading hierarchy with accessible sizing */
@@ -2194,85 +2194,6 @@ main {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 clamp(1rem, 4vw, 2rem);
-}
-
-/* Not Found Styles */
-.not-found {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
-  background: linear-gradient(135deg, var(--background-black) 0%, var(--secondary-dark) 100%);
-}
-
-.not-found-content {
-  text-align: center;
-  max-width: 500px;
-  padding: var(--spacing-2xl);
-}
-
-.not-found-content h1 {
-  font-size: clamp(3rem, 8vw, 6rem);
-  font-weight: 900;
-  color: var(--primary-red);
-  margin-bottom: var(--spacing-lg);
-  text-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
-}
-
-.not-found-content p {
-  font-size: 1.2rem;
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-xl);
-  line-height: 1.6;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  background: var(--primary-red);
-  color: var(--text-primary);
-  text-decoration: none;
-  padding: var(--spacing-md) var(--spacing-xl);
-  border-radius: var(--radius-lg);
-  font-weight: 600;
-  transition: all var(--transition-fast);
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background: var(--primary-red-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
-  color: var(--text-primary);
-}
-
-/* Theme Toggle */
-.theme-toggle {
-  position: fixed;
-  bottom: var(--spacing-xl);
-  right: var(--spacing-xl);
-  width: 60px;
-  height: 60px;
-  background: var(--primary-red);
-  border: none;
-  border-radius: var(--radius-full);
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  z-index: var(--z-header);
-  box-shadow: var(--shadow-heavy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.theme-toggle:hover {
-  background: var(--primary-red-hover);
-  transform: scale(1.1);
-  box-shadow: var(--shadow-glow);
 }
 
 /* Responsive Design */
