@@ -27,6 +27,15 @@
   --success-color: #51cf66;
   --warning-color: #ffd43b;
   
+  /* Accessibility Colors - WCAG AA Compliant */
+  --text-high-contrast: #ffffff;
+  --text-medium-contrast: #e5e5e5;
+  --text-low-contrast: #cccccc;
+  --focus-color: #4a9eff;
+  --error-color: #ff6b6b;
+  --success-color: #51cf66;
+  --warning-color: #ffd43b;
+  
   /* UI Elements */
   --border-color: rgba(255, 255, 255, 0.1);
   --border-hover: rgba(255, 255, 255, 0.2);
@@ -42,6 +51,23 @@
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
+  
+  /* Typography Scale - Accessible sizing */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  
+  /* Line Heights - Improved readability */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
   
   /* Typography Scale - Accessible sizing */
   --font-size-xs: 0.75rem;    /* 12px */
@@ -128,7 +154,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-md);
   color: var(--text-high-contrast);
   letter-spacing: -0.025em;
-  font-feature-settings: 'kern' 1, 'liga' 1;
+  font-feature-settings: 'kern\' 1, 'liga\' 1;
 }
 
 /* Proper heading hierarchy with accessible sizing */
@@ -1052,140 +1078,6 @@ p {
   background: #141414;
   padding: 2rem 0;
 }
-
-/* Movie Detail Styles */
-.netflix-movie-detail {
-  background: #141414;
-  min-height: 100vh;
-}
-
-.netflix-movie-hero {
-  position: relative;
-  height: 80vh;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.netflix-movie-info {
-  background: #141414;
-  padding: 2rem 0;
-}
-
-.netflix-info-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 4%;
-}
-
-.netflix-info-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
-}
-
-.netflix-info-left,
-.netflix-info-right {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 2rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.netflix-cast-info p,
-.netflix-episodes-info p {
-  margin-bottom: 1rem;
-  color: #b3b3b3;
-  line-height: 1.6;
-}
-
-.netflix-cast-info span,
-.netflix-episodes-info span {
-  color: #ffffff;
-  font-weight: 600;
-  margin-right: 0.5rem;
-}
-
-.section-heading {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e50914;
-  padding-bottom: 0.5rem;
-}
-
-.netflix-download-section {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 3rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.netflix-download-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.netflix-download-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.3s ease;
-}
-
-.netflix-download-card:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #e50914;
-  transform: translateY(-2px);
-}
-
-.download-info h4 {
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.download-quality-title {
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.download-info p {
-  color: #b3b3b3;
-  font-size: 0.9rem;
-  margin: 0;
-}
-
-.netflix-download-card button {
-  background: #e50914;
-  color: #ffffff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.netflix-download-card button:hover {
-  background: #f40612;
-  transform: scale(1.05);
-}
-
 /* Header Styles */
 .header {
   position: fixed;
