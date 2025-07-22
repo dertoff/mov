@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { 
   Play, 
   Plus, 
@@ -94,72 +95,6 @@ const mockMovies = [
     backdrop: "https://images.pexels.com/photos/8263332/pexels-photo-8263332.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
     overview: "After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past.",
     type: "movie"
-  },
-  {
-    id: 7,
-    title: "Dune",
-    year: 2021,
-    rating: 8.0,
-    genre: ["Adventure", "Drama", "Sci-Fi"],
-    poster: "https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=300&h=450",
-    backdrop: "https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
-    overview: "Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding, must travel to the most dangerous planet.",
-    type: "movie"
-  },
-  {
-    id: 8,
-    title: "The Batman",
-    year: 2022,
-    rating: 7.8,
-    genre: ["Action", "Crime", "Drama"],
-    poster: "https://images.pexels.com/photos/7991225/pexels-photo-7991225.jpeg?auto=compress&cs=tinysrgb&w=300&h=450",
-    backdrop: "https://images.pexels.com/photos/7991225/pexels-photo-7991225.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
-    overview: "When the Riddler, a sadistic serial killer, begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption.",
-    type: "movie"
-  },
-  {
-    id: 9,
-    title: "Black Panther",
-    year: 2018,
-    rating: 7.3,
-    genre: ["Action", "Adventure", "Sci-Fi"],
-    poster: "https://images.pexels.com/photos/8263332/pexels-photo-8263332.jpeg?auto=compress&cs=tinysrgb&w=300&h=450",
-    backdrop: "https://images.pexels.com/photos/8263332/pexels-photo-8263332.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
-    overview: "T'Challa, heir to the hidden but advanced kingdom of Wakanda, must step forward to lead his people into a new future.",
-    type: "movie"
-  },
-  {
-    id: 10,
-    title: "Wonder Woman",
-    year: 2017,
-    rating: 7.4,
-    genre: ["Action", "Adventure", "Fantasy"],
-    poster: "https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=300&h=450",
-    backdrop: "https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
-    overview: "When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war.",
-    type: "movie"
-  },
-  {
-    id: 11,
-    title: "Aquaman",
-    year: 2018,
-    rating: 6.8,
-    genre: ["Action", "Adventure", "Fantasy"],
-    poster: "https://images.pexels.com/photos/7991225/pexels-photo-7991225.jpeg?auto=compress&cs=tinysrgb&w=300&h=450",
-    backdrop: "https://images.pexels.com/photos/7991225/pexels-photo-7991225.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
-    overview: "Arthur Curry, the human-born heir to the underwater kingdom of Atlantis, goes on a quest to prevent a war between the worlds.",
-    type: "movie"
-  },
-  {
-    id: 12,
-    title: "Joker",
-    year: 2019,
-    rating: 8.4,
-    genre: ["Crime", "Drama", "Thriller"],
-    poster: "https://images.pexels.com/photos/8263332/pexels-photo-8263332.jpeg?auto=compress&cs=tinysrgb&w=300&h=450",
-    backdrop: "https://images.pexels.com/photos/8263332/pexels-photo-8263332.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080",
-    overview: "In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society.",
-    type: "movie"
   }
 ];
 
@@ -189,12 +124,12 @@ const Header = ({ onSearch, searchQuery, setSearchQuery }) => {
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="header-content">
           <div className="header-left">
-            <Link to="/" className="logo">
+            <a href="/" className="logo">
               <div className="logo-icon">
                 <Film />
               </div>
               <span className="logo-text">StreamFlix</span>
-            </Link>
+            </a>
           </div>
 
           <div className="header-right">
@@ -380,7 +315,7 @@ const NetflixCard = ({ movie, onPlayClick }) => {
 
 // Netflix Row Component
 const NetflixRow = ({ title, movies, onPlayClick }) => {
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = React.useRef(null);
 
   const scroll = (direction) => {
     const container = scrollContainerRef.current;
@@ -429,42 +364,11 @@ const NetflixRow = ({ title, movies, onPlayClick }) => {
 const VideoPlayer = ({ movie, onClose }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [showCPA, setShowCPA] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(50);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(7200); // 2 hours
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    let hideControlsTimer;
-    
-    if (isPlaying && !showCPA) {
-      hideControlsTimer = setTimeout(() => {
-        setShowControls(false);
-      }, 3000);
-    }
-
-    return () => clearTimeout(hideControlsTimer);
-  }, [isPlaying, showCPA, showControls]);
-
-  useEffect(() => {
-    let progressTimer;
-    
-    if (isPlaying && !showCPA) {
-      progressTimer = setInterval(() => {
-        setCurrentTime(prev => {
-          const newTime = prev + 1;
-          setProgress((newTime / duration) * 100);
-          return newTime;
-        });
-      }, 1000);
-    }
-
-    return () => clearInterval(progressTimer);
-  }, [isPlaying, showCPA, duration]);
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -482,15 +386,6 @@ const VideoPlayer = ({ movie, onClose }) => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleProgressClick = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const newProgress = (clickX / rect.width) * 100;
-    const newTime = (newProgress / 100) * duration;
-    setProgress(newProgress);
-    setCurrentTime(newTime);
-  };
-
   return (
     <div className="netflix-video-player">
       <div className="netflix-video-header">
@@ -499,20 +394,13 @@ const VideoPlayer = ({ movie, onClose }) => {
           Back to Browse
         </button>
         <h2>{movie.title}</h2>
-        <div className="netflix-video-actions">
-          <button className="netflix-video-action-btn">
-            <User size={20} />
-          </button>
-        </div>
       </div>
 
       <div className="netflix-video-container">
         <video
-          ref={videoRef}
           className="netflix-video"
           poster={movie.backdrop}
           onClick={handlePlayPause}
-          onMouseMove={() => setShowControls(true)}
         >
           <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
           Your browser does not support the video tag.
@@ -523,7 +411,7 @@ const VideoPlayer = ({ movie, onClose }) => {
             <div className="netflix-cpa-content">
               <h2>Continue Watching</h2>
               <p>Complete a quick offer to continue watching this movie in HD quality.</p>
-              <button className="netflix-btn netflix-btn-primary" onClick={handleCPAAccept}>
+              <button className="netflix-btn-primary" onClick={handleCPAAccept}>
                 Complete Offer & Continue
               </button>
             </div>
@@ -536,123 +424,8 @@ const VideoPlayer = ({ movie, onClose }) => {
               <button className="netflix-play-pause-btn" onClick={handlePlayPause}>
                 {isPlaying ? <Pause size={32} /> : <Play size={32} />}
               </button>
-              <button className="control-btn">
-                <SkipBack size={24} />
-              </button>
-              <button className="control-btn">
-                <SkipForward size={24} />
-              </button>
-              <div className="netflix-volume-controls">
-                <button onClick={() => setIsMuted(!isMuted)}>
-                  {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-                </button>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={isMuted ? 0 : volume}
-                  onChange={(e) => {
-                    setVolume(e.target.value);
-                    setIsMuted(e.target.value === '0');
-                  }}
-                  className="volume-slider"
-                />
-              </div>
-              <span className="time-display">
-                {formatTime(currentTime)} / {formatTime(duration)}
-              </span>
-            </div>
-
-            <div className="controls-right">
-              <button 
-                className="control-btn"
-                onClick={() => setIsFullscreen(!isFullscreen)}
-              >
-                {isFullscreen ? <Minimize size={20} /> : <Maximize size={20} />}
-              </button>
             </div>
           </div>
-          
-          <div className="progress-container">
-            <div className="progress-bar" onClick={handleProgressClick}>
-              <div 
-                className="progress-fill" 
-                style={{ width: `${progress}%` }}
-              ></div>
-              <div 
-                className="progress-thumb" 
-                style={{ left: `${progress}%` }}
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Movie Info Panel Component
-const MovieInfoPanel = ({ movie }) => {
-  if (!movie) return null;
-
-  return (
-    <div className="netflix-movie-info">
-      <div className="netflix-info-container">
-        <div className="netflix-info-main">
-          <div className="netflix-info-left">
-            <div className="netflix-cast-info">
-              <p><span>Cast:</span> Christian Bale, Heath Ledger, Aaron Eckhart, Michael Caine</p>
-              <p><span>Genres:</span> {movie.genre.join(', ')}</p>
-              <p><span>This movie is:</span> Dark, Suspenseful, Exciting</p>
-            </div>
-          </div>
-          <div className="netflix-info-right">
-            <div className="netflix-episodes-info">
-              <h3>About {movie.title}</h3>
-              <p>{movie.overview}</p>
-              <p><span>Director:</span> Christopher Nolan</p>
-              <p><span>Writer:</span> Jonathan Nolan, Christopher Nolan</p>
-              <p><span>Rating:</span> PG-13</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Download Section Component
-const DownloadSection = ({ movie }) => {
-  const downloadQualities = [
-    { quality: "480p", size: "1.2 GB", format: "MP4" },
-    { quality: "720p", size: "2.1 GB", format: "MP4" },
-    { quality: "1080p", size: "4.3 GB", format: "MP4" },
-    { quality: "4K", size: "8.7 GB", format: "MP4" }
-  ];
-
-  const handleDownload = (quality) => {
-    alert(`Complete the CPA offer to download ${movie.title} in ${quality.quality} quality!`);
-  };
-
-  return (
-    <div className="netflix-download-section">
-      <div className="netflix-info-container">
-        <h2>Download {movie.title}</h2>
-        <div className="netflix-download-grid">
-          {downloadQualities.map((quality, index) => (
-            <div key={index} className="netflix-download-card">
-              <div className="download-info">
-                <h4>{quality.quality} Quality</h4>
-                <p>{quality.size} • {quality.format}</p>
-              </div>
-              <button 
-                className="netflix-download-btn"
-                onClick={() => handleDownload(quality)}
-              >
-                Download
-              </button>
-            </div>
-          ))}
         </div>
       </div>
     </div>
@@ -674,7 +447,6 @@ const HomePage = () => {
   const handlePlayClick = (movie) => {
     setSelectedMovie(movie);
     setShowVideoPlayer(true);
-    // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -687,19 +459,14 @@ const HomePage = () => {
   const trendingMovies = mockMovies.slice(0, 6);
   const actionMovies = mockMovies.filter(movie => movie.genre.includes('Action')).slice(0, 6);
   const dramaMovies = mockMovies.filter(movie => movie.genre.includes('Drama')).slice(0, 6);
-  const sciFiMovies = mockMovies.filter(movie => movie.genre.includes('Sci-Fi')).slice(0, 6);
 
   return (
     <div className="netflix-home">
       {showVideoPlayer && selectedMovie ? (
-        <>
-          <VideoPlayer 
-            movie={selectedMovie} 
-            onClose={handleClosePlayer} 
-          />
-          <MovieInfoPanel movie={selectedMovie} />
-          <DownloadSection movie={selectedMovie} />
-        </>
+        <VideoPlayer 
+          movie={selectedMovie} 
+          onClose={handleClosePlayer} 
+        />
       ) : (
         <>
           <NetflixHero movie={featuredMovie} onPlayClick={handlePlayClick} />
@@ -721,13 +488,8 @@ const HomePage = () => {
               onPlayClick={handlePlayClick}
             />
             <NetflixRow 
-              title="Sci-Fi Movies" 
-              movies={sciFiMovies} 
-              onPlayClick={handlePlayClick}
-            />
-            <NetflixRow 
               title="Popular on StreamFlix" 
-              movies={mockMovies.slice(6, 12)} 
+              movies={mockMovies.slice(3, 6)} 
               onPlayClick={handlePlayClick}
             />
           </div>
@@ -737,68 +499,23 @@ const HomePage = () => {
   );
 };
 
-// SEO Pages (hidden from main navigation but available for SEO)
-const TrendingPage = () => (
-  <div className="netflix-trending-page">
-    <div className="netflix-page-hero">
-      <div className="netflix-hero-background-gradient"></div>
-      <div className="netflix-page-hero-content">
-        <div className="netflix-page-icon">📈</div>
-        <h1 className="netflix-page-title">Trending Now</h1>
-        <p className="netflix-page-description">Discover what's popular</p>
-      </div>
-    </div>
-    <div className="netflix-content">
-      <NetflixRow title="Trending Movies" movies={mockMovies} onPlayClick={() => {}} />
-    </div>
-  </div>
-);
-
-const TopRatedPage = () => (
-  <div className="netflix-top-rated-page">
-    <div className="netflix-page-hero">
-      <div className="netflix-hero-background-gradient"></div>
-      <div className="netflix-page-hero-content">
-        <div className="netflix-page-icon">🏆</div>
-        <h1 className="netflix-page-title">Top Rated</h1>
-        <p className="netflix-page-description">The highest rated content</p>
-      </div>
-    </div>
-    <div className="netflix-content">
-      <NetflixRow title="Top Rated Movies" movies={mockMovies} onPlayClick={() => {}} />
-    </div>
-  </div>
-);
-
-const UpcomingPage = () => (
-  <div className="netflix-upcoming-page">
-    <div className="netflix-page-hero">
-      <div className="netflix-hero-background-gradient"></div>
-      <div className="netflix-page-hero-content">
-        <div className="netflix-page-icon">📅</div>
-        <h1 className="netflix-page-title">Coming Soon</h1>
-        <p className="netflix-page-description">Upcoming releases</p>
-      </div>
-    </div>
-    <div className="netflix-content">
-      <NetflixRow title="Upcoming Movies" movies={mockMovies} onPlayClick={() => {}} />
-    </div>
-  </div>
-);
-
 // Main App Component
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    // Search functionality can be implemented here
     console.log('Searching for:', query);
   };
 
   return (
     <Router>
       <div className="App">
+        <Helmet>
+          <title>StreamFlix - Premium Movie & TV Show Streaming Platform</title>
+          <meta name="description" content="Watch unlimited movies and TV shows online for free. Stream the latest blockbusters, trending series, and classic films in HD quality." />
+        </Helmet>
+        
         <Header 
           onSearch={handleSearch}
           searchQuery={searchQuery}
@@ -807,10 +524,6 @@ function App() {
         
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {/* SEO Pages - Hidden from main navigation but accessible via URL */}
-          <Route path="/trending" element={<TrendingPage />} />
-          <Route path="/top-rated" element={<TopRatedPage />} />
-          <Route path="/upcoming" element={<UpcomingPage />} />
         </Routes>
       </div>
     </Router>
