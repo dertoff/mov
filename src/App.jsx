@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import AccessibilityProvider from './components/AccessibilityProvider';
 import { 
   Play, 
   Plus, 
@@ -23,9 +25,6 @@ import {
   Pause,
   ArrowLeft
 } from 'lucide-react';
-
-// Import CSS
-import './App.css';
 
 // Extended mock data with more content
 const mockMovies = [
@@ -509,24 +508,30 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="App">
-        <Helmet>
-          <title>StreamFlix - Premium Movie & TV Show Streaming Platform</title>
-          <meta name="description" content="Watch unlimited movies and TV shows online for free. Stream the latest blockbusters, trending series, and classic films in HD quality." />
-        </Helmet>
-        
-        <Header 
-          onSearch={handleSearch}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
-        
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </div>
-    </Router>
+    <ErrorBoundary>
+      <AccessibilityProvider>
+        <Router>
+          <div className="App">
+            <Helmet>
+              <title>StreamFlix - Premium Movie & TV Show Streaming Platform</title>
+              <meta name="description" content="Watch unlimited movies and TV shows online for free. Stream the latest blockbusters, trending series, and classic films in HD quality." />
+              <link rel="stylesheet" href="/css/main.css" />
+              <link rel="stylesheet" href="/css/bootstrap.min.css" />
+            </Helmet>
+            
+            <Header 
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+            
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+            </Routes>
+          </div>
+        </Router>
+      </AccessibilityProvider>
+    </ErrorBoundary>
   );
 }
 
